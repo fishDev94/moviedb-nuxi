@@ -5,12 +5,18 @@ export const useFishFetch = async <T>(
   const config = useRuntimeConfig();
 
   try {
+    const accessToken = config.public.accessToken;
+    if (!accessToken) {
+      throw new Error(
+        "Access token is undefined. Please specify a valid access token"
+      );
+    }
     const { data } = await useFetch<T>(url, {
       ...options,
       baseURL: options.baseURL || "https://api.themoviedb.org/3/",
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${config.public.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -20,6 +26,6 @@ export const useFishFetch = async <T>(
 
     throw new Error("Fetch failed");
   } catch (error) {
-    console.log("sono qui", error);
+    console.error(error);
   }
 };

@@ -9,21 +9,22 @@
 </template>
 
 <script setup lang="ts">
+import type { MovieDBResponse, Movie } from "@/types/movieDB.type";
 const config = useRuntimeConfig();
 
-const { data, status, error, refresh, clear } = await useAsyncData<any>(
-  "movies",
-  () =>
-    useFishFetch("discover/movie", {
-      params: {
-        include_adult: false,
-        include_video: false,
-        language: "it-IT",
-        page: 2,
-        sort_by: "popularity.desc",
-      },
-    })
+const { data, status, error, refresh, clear } = useAsyncData<
+  MovieDBResponse | undefined
+>("movies", () =>
+  useFishFetch<MovieDBResponse>("discover/movie", {
+    params: {
+      include_adult: false,
+      include_video: true,
+      language: "en-GB",
+      page: 1,
+      sort_by: "popularity.desc",
+    },
+  })
 );
 
-console.log(data.value);
+console.log((data.value?.results as Movie[])?.[0]?.title);
 </script>
