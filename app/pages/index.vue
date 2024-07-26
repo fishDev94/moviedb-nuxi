@@ -3,14 +3,18 @@
     <nav>
       <NuxtLink to="/movie">Movie</NuxtLink>
     </nav>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <ul v-if="data">
+      <li v-for="movie of data.results" :key="movie.id">
+        <NuxtLink :to="`/movie/${movie.id}`">
+          {{ (movie as Movie).title }}
+        </NuxtLink>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { MovieDBResponse, Movie } from "@/types/movieDB.type";
-const config = useRuntimeConfig();
 
 const { data, status, error, refresh, clear } = useAsyncData<
   MovieDBResponse | undefined
@@ -25,6 +29,4 @@ const { data, status, error, refresh, clear } = useAsyncData<
     },
   })
 );
-
-console.log((data.value?.results as Movie[])?.[0]?.title);
 </script>

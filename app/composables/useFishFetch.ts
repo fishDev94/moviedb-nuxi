@@ -11,7 +11,7 @@ export const useFishFetch = async <T>(
         "Access token is undefined. Please specify a valid access token"
       );
     }
-    const { data } = await useFetch<T>(url, {
+    const data = await $fetch<T>(url, {
       ...options,
       baseURL: options.baseURL || "https://api.themoviedb.org/3/",
       headers: {
@@ -20,7 +20,7 @@ export const useFishFetch = async <T>(
       },
     });
 
-    if (data.value) {
+    if (data) {
       return data as T;
     }
 
