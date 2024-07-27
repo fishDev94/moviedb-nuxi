@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <nav>
-      <NuxtLink to="/movie">Movie</NuxtLink>
-    </nav>
+  <main class="moviedb-home">
+    <app-nav-bar />
     <ul v-if="data">
       <li v-for="movie of data.results" :key="movie.id">
         <NuxtLink :to="`/movie/${movie.id}`">
@@ -10,7 +8,7 @@
         </NuxtLink>
       </li>
     </ul>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
