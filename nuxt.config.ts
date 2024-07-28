@@ -5,10 +5,19 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  css: ["assets/global.css"],
+  css: ["assets/styles/globals.scss"],
   runtimeConfig: {
     public: {
       accessToken: process.env.NUXT_ACCESS_TOKEN,
+    },
+  },
+  hooks: {
+    "pages:extend"(pages) {
+      pages.push({
+        name: "genre",
+        path: "/browse/genre/:id/",
+        file: "~/pages/-genre.vue",
+      });
     },
   },
 });

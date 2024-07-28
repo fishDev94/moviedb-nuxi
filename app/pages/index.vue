@@ -1,6 +1,13 @@
 <template>
   <main class="moviedb-home">
-    <app-nav-bar />
+    <ul v-if="data">
+      <li v-for="movie of data.results" :key="movie.id">
+        <NuxtLink :to="`/movie/${movie.id}`">
+          {{ (movie as Movie).title }}
+        </NuxtLink>
+      </li>
+    </ul>
+
     <ul v-if="data">
       <li v-for="movie of data.results" :key="movie.id">
         <NuxtLink :to="`/movie/${movie.id}`">
@@ -28,3 +35,9 @@ const { data, status, error, refresh, clear } = useAsyncData<
   })
 );
 </script>
+
+<style lang="scss" scoped>
+  .moviedb-home {
+    padding: 16px 20px;
+  }
+</style>

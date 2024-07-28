@@ -9,5 +9,5 @@ definePageMeta({
 
 const { data } = useNuxtData("movieDetails");
 
-console.log(data);
+console.log(data.value);
 </script>

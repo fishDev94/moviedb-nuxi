@@ -1,6 +1,6 @@
 export const useFishFetch = async <T>(
   url: string,
-  options: Record<string, any>
+  options?: Record<string, any>
 ): Promise<T | undefined> => {
   const config = useRuntimeConfig();
 
@@ -13,9 +13,9 @@ export const useFishFetch = async <T>(
     }
     const data = await $fetch<T>(url, {
       ...options,
-      baseURL: options.baseURL || "https://api.themoviedb.org/3/",
+      baseURL: options?.baseURL || "https://api.themoviedb.org/3/",
       headers: {
-        ...options.headers,
+        ...options?.headers,
         Authorization: `Bearer ${accessToken}`,
       },
     });
