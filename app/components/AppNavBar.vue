@@ -2,16 +2,18 @@
   <nav :class="{'moviedb-nav': true, active: isHamMenuActive}">
     <div class="moviedb-nav__first-content">
       <ui-ham-men class="moviedb-nav__ham-menu" @click-ham-menu="toggleMenuVisibility" :is-menu-active="isHamMenuActive"/>
-      <ui-logo class="moviedb-nav__logo"/>
+      <ui-logo class="moviedb-nav__logo" @click="pushToHome"/>
     </div>
     <div class="moviedb-nav__second-content">
       <ui-app-input />
     </div>
     <div :class="{'moviedb-nav__slide-background': true, active: isHamMenuActive}" @click="setHamMenuInactive"></div>
     <div :class="{'moviedb-nav__genres-menu': true, active: isHamMenuActive}">
+      <ui-user-card />
+      <hr />
       <ul>
         <li v-for="(element, idx) of menuList" :key="idx">
-          <nuxt-link :to="element.href" @click="setHamMenuInactive">{{ element.text }}</nuxt-link>
+          <nuxt-link :to="element.href" class="link" active-class="active" @click="setHamMenuInactive"><div class="nf-element__border"></div>{{ element.text }}</nuxt-link>
         </li>
       </ul>
     </div>
@@ -23,6 +25,8 @@ import type { Genre } from '~/types/movieDB.type';
 
 const isHamMenuActive = ref<boolean>(false);
 const { data: genres } = useNuxtData<{ genres: Genre[] }>('genres')
+
+const router = useRouter();
 
   const menuList = ref<{ text: string, href: string }[]>([
   {
@@ -41,16 +45,15 @@ const { data: genres } = useNuxtData<{ genres: Genre[] }>('genres')
   }) : [])
 ])
 
-console.log(menuList.value);
+const pushToHome = () => {
+    router.push("/");
+}
 
 const toggleMenuVisibility = (e: boolean) => {
   isHamMenuActive.value = e;
-
-  console.log(isHamMenuActive.value)
 }
 
 const setHamMenuInactive = () => {
-  console.log('background clicked')
   isHamMenuActive.value = false;
 }
 </script>
@@ -112,7 +115,10 @@ const setHamMenuInactive = () => {
 
   &__genres-menu {
     position: absolute;
-    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 0;
     top: var(--nav-bar-height-mobile);
     z-index: 1;
     left: 0;
@@ -120,11 +126,42 @@ const setHamMenuInactive = () => {
     width: 250px;
     transform: translateX(-250px);
     transition: transform .15s cubic-bezier(.5,0,.1,1);
+    max-height: calc(100dvh - var(--nav-bar-height-mobile));
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+
+    hr {
+      border: 1px solid rgba(var(--main-gray));
+    }
+
+    &::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+    }
 
     ul {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 10px;
+    }
+
+    li {
+      
+      a {
+        display: flex;
+        align-items: center;
+
+        .nf-element__border {
+          height: 18px;
+          width: 16px;
+        }
+        
+        &.active {
+          .nf-element__border {
+          border-left: 4px solid rgb(var(--primary));
+          }
+        }
+      }
     }
   }
 
