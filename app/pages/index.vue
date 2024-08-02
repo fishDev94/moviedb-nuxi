@@ -1,6 +1,6 @@
 <template>
   <main class="moviedb-home" v-if="data">
-    <top-section title="Popular Movies" :movie-list="data.results"/>
+    <top-section title="Popular Movies" :movie-list="data.results" />
   </main>
 </template>
 
@@ -20,8 +20,6 @@ const { data, status, error, refresh, clear } = useAsyncData<
     },
   })
 );
-
-console.log(data.value);
 </script>
 
 <style lang="scss" scoped>
