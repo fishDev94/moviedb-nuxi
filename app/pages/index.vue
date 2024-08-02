@@ -1,25 +1,11 @@
 <template>
-  <main class="moviedb-home">
-    <ul v-if="data">
-      <li v-for="movie of data.results" :key="movie.id">
-        <NuxtLink :to="`/movie/${movie.id}`">
-          {{ (movie as Movie).title }}
-        </NuxtLink>
-      </li>
-    </ul>
-
-    <ul v-if="data">
-      <li v-for="movie of data.results" :key="movie.id">
-        <NuxtLink :to="`/movie/${movie.id}`">
-          {{ (movie as Movie).title }}
-        </NuxtLink>
-      </li>
-    </ul>
+  <main class="moviedb-home" v-if="data">
+    <top-section title="Popular Movies" :movie-list="data.results"/>
   </main>
 </template>
 
 <script setup lang="ts">
-import type { MovieDBResponse, Movie } from "@/types/movieDB.type";
+import type { MovieDBResponse, Movie } from "~/app/types/movieDB.type";
 
 const { data, status, error, refresh, clear } = useAsyncData<
   MovieDBResponse | undefined
@@ -34,10 +20,12 @@ const { data, status, error, refresh, clear } = useAsyncData<
     },
   })
 );
+
+console.log(data.value);
 </script>
 
 <style lang="scss" scoped>
-  .moviedb-home {
-    padding: 16px 20px;
-  }
+.moviedb-home {
+  padding: 16px 20px;
+}
 </style>

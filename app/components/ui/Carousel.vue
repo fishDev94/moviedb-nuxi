@@ -6,14 +6,18 @@ const clientWidth = ref(1);
 const scrollLeft = ref(0);
 const scrollWidth = ref(0);
 const calculatedIndex = ref(0);
+const CarouselLength = ref(0);
 
-const { type } = defineProps<{
-  length: number;
+const props = withDefaults(defineProps<{
   type?: string;
-}>();
+  indicator?: boolean;
+  gapMobile?: string;
+}>(), { indicator: true, gapMobile: '0' });
 
 onMounted(() => {
   const carouselRef = carousel.value! as HTMLDivElement;
+  CarouselLength.value = carouselRef.children.length
+
   if ("onscrollend" in window) {
     carouselRef.addEventListener("scrollend", (e) => {
       updateScrollValue(e);
@@ -98,9 +102,9 @@ const isMinScrollValue = computed((): boolean => scrollLeft.value === 0);
         <i class="pi pi-angle-right"></i>
       </button>
     </div>
-    <div class="carousel__pagination-container">
+    <div class="carousel__pagination-container" v-if="indicator">
       <span
-        v-for="(_, index) in Array(length)"
+        v-for="(_, index) in Array(CarouselLength)"
         :class="`${type ? 'photo' : ''} ${useNumberEquality(
           index,
           calculatedIndex
@@ -118,6 +122,7 @@ const isMinScrollValue = computed((): boolean => scrollLeft.value === 0);
   max-width: 1440px;
   margin: auto;
   overflow: hidden;
+  width: 100%;
 
   &__scroller {
     margin: 0 20px;
@@ -135,7 +140,7 @@ const isMinScrollValue = computed((): boolean => scrollLeft.value === 0);
     }
 
     @include start-from(phone) {
-      gap: 0;
+      gap: v-bind('props.gapMobile');
       margin: auto;
     }
   }

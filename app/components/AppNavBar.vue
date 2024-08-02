@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Genre } from '~/types/movieDB.type';
+import type { Genre } from '~/app/types/movieDB.type';
 
 const isHamMenuActive = ref<boolean>(false);
 const { data: genres } = useNuxtData<{ genres: Genre[] }>('genres')

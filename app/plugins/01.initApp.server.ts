@@ -1,5 +1,5 @@
 import { useAsyncData } from "#app";
-import type { Genre } from "~/types/movieDB.type";
+import type { Genre } from "~/app/types/movieDB.type";
 
 export default defineNuxtPlugin(nuxtApp => {
     useAsyncData('genres', () => {
