@@ -21,9 +21,3 @@ const { data, status, error, refresh, clear } = useAsyncData<
   })
 );
 </script>
-
-<style lang="scss" scoped>
-.moviedb-home {
-  padding: 16px 20px;
-}
-</style>

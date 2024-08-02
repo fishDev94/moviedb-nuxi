@@ -33,13 +33,14 @@ onMounted(() => {
   }
 });
 
-onBeforeRouteLeave(() => {
+onBeforeRouteLeave((to, from, next) => {
   const carouselRef = carousel.value! as HTMLDivElement;
   if ("onscrollend" in window) {
     carouselRef.removeEventListener("scrollend", (e) => {
       updateScrollValue(e);
     });
   }
+  next();
 });
 
 const handleClick = (direction: "previous" | "next") => {

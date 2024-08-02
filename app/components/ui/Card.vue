@@ -1,7 +1,7 @@
 <template>
-    <a class="nf-card" :href="`movie/${id}`">
+    <nuxt-link class="nf-card" :to="`movie/${id}`">
         <img class="nf-card__img" :src="imgSrc" alt="" loading="lazy">
-    </a>
+    </nuxt-link>
 </template>
 
 <script lang="ts" setup>
