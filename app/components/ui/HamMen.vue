@@ -21,7 +21,7 @@ function setActiveMenu(): void {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/utils";
+@import "assets/styles/utils";
 
 div {
   display: flex;
