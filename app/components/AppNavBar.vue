@@ -69,8 +69,8 @@ const setHamMenuInactive = () => {
   height: var(--nav-bar-height-mobile);
   padding: 0 20px;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.153);
-  backdrop-filter: blur(0.8px);
+  background-color: rgba(var(--neutral-black), 0.45);
+  backdrop-filter: blur(1.5px);
 
   &.active {
     background-color: rgba(var(--neutral-black));

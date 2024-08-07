@@ -1,12 +1,11 @@
 import type { Movie } from "~/app/types/movieDB.type";
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const id = to.params.id;
-
-  console.log(id)
+  const movie_type = to.params.movie_type;
 
   await useAsyncData("movieDetails", () =>
-      useFishFetch<Movie>(`movie/${id}`, {
+      useFishFetch<Movie>(`${movie_type}/${id}`, {
         params: {
           language: "en-GB",
         },
