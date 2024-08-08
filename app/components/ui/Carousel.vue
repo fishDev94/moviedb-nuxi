@@ -63,18 +63,19 @@ onBeforeRouteLeave((_1: any, _2: any, next: any) => {
 });
 
 const handleClick = (direction: "previous" | "next") => {
-  const carouselEl = carousel.value! as HTMLDivElement;
-  const isPrev = direction === "previous";
-
-  const scrollLeft =
-    carouselEl.scrollLeft + (isPrev ? -cardSize.value : cardSize.value);
-
-  carouselEl.scroll({ left: scrollLeft, top: 0 });
+  if (carousel.value) {
+    const carouselEl: HTMLDivElement = carousel.value
+    const isPrev = direction === "previous";
+    const scrollLeft =
+      carouselEl.scrollLeft + (isPrev ? -cardSize.value : cardSize.value);
+  
+    carouselEl.scroll({ left: scrollLeft, top: 0 });
+  }
 };
 
 const updateScrollValue = () => {
   const carouselTarget = carousel.value! as HTMLDivElement;
-  
+
   CarouselLength.value = carouselTarget.children.length;
   cardSize.value = carouselTarget.children[0]?.getBoundingClientRect().width ?? 0;
 
