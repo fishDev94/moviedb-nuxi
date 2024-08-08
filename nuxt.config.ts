@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  css: ["assets/styles/globals.scss"],
+  css: ["assets/styles/globals.scss", "primeicons/primeicons.css"],
   runtimeConfig: {
     public: {
       accessToken: process.env.NUXT_ACCESS_TOKEN,

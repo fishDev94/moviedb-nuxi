@@ -8,8 +8,12 @@
 </template>
 
 <style lang="scss" scoped>
+@import "assets/styles/utils";
     .page-slot {
         margin-top: var(--nav-bar-height-mobile);
-        padding: 16px 20px;
+
+        @include start-from(generic-desktop) {
+            margin-top: var(--nav-bar-height-desktop);
+        }
     }
 </style>

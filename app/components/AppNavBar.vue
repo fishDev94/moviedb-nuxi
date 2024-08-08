@@ -59,9 +59,10 @@ const setHamMenuInactive = () => {
 </script>
 
 <style lang="scss" scoped>
+@import "assets/styles/utils";
 .moviedb-nav {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100%;
@@ -71,6 +72,11 @@ const setHamMenuInactive = () => {
   align-items: center;
   background-color: rgba(var(--neutral-black), 0.45);
   backdrop-filter: blur(1.5px);
+
+  @include start-from(generic-desktop) {
+    height: var(--nav-bar-height-desktop);
+    padding: 0 34px;
+  }
 
   &.active {
     background-color: rgba(var(--neutral-black));
@@ -96,6 +102,11 @@ const setHamMenuInactive = () => {
     height: 24px;
     width: 84px;
     fill: rgb(var(--primary));
+
+    @include start-from(generic-desktop) {
+      height: 30px;
+      width: 100px;
+    }
   }
 
   &__slide-background.active {

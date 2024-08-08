@@ -1,5 +1,18 @@
+<script lang="ts">
+/**
+ * @function CarouselComponent
+ * @param {String} type it define if this carousel is a photo gallery or by default a simple card carousel
+ * @param {Boolean} indicator it will active the indicator on your carousel - best with slider mode
+ * @param {String} gapMobile accept string with px values to set gap for mobile version 0px by default
+ * @param {String} size
+ */
+export default {
+  name: "Carousel",
+};
+</script>
+
 <script setup lang="ts">
-import { ref } from "vue";
+import { useResizeObserver } from '@vueuse/core'
 
 const carousel = ref(null);
 const clientWidth = ref(1);
@@ -15,6 +28,7 @@ const props = withDefaults(
     indicator?: boolean;
     gapMobile?: string;
     size?: string;
+    paginators?: string;
   }>(),
   { indicator: true, gapMobile: "0px" }
 );
@@ -27,30 +41,21 @@ const isLarge = computed(() => props.size === "large");
 
 onMounted(() => {
   const carouselRef = carousel.value! as HTMLDivElement;
-  CarouselLength.value = carouselRef.children.length;
-  cardSize.value = carouselRef.children[0]?.getBoundingClientRect().width ?? 0;
 
   if ("onscrollend" in window) {
-    carouselRef.addEventListener("scrollend", (e) => {
-      updateScrollValue(e);
-    });
+    carouselRef.addEventListener("scrollend", updateScrollValue);
   } else {
     carouselRef.onscroll = (event) => {
       clearTimeout((window as any).scrollEndTimer);
-      (window as any).scrollEndTimer = setTimeout(
-        () => updateScrollValue(event),
-        100
-      );
+      (window as any).scrollEndTimer = setTimeout(updateScrollValue, 100);
     };
   }
 });
 
-onBeforeRouteLeave((_1, _2, next) => {
+onBeforeRouteLeave((_1: any, _2: any, next: any) => {
   const carouselRef = carousel.value! as HTMLDivElement;
   if ("onscrollend" in window) {
-    carouselRef.removeEventListener("scrollend", (e) => {
-      updateScrollValue(e);
-    });
+    carouselRef.removeEventListener("scrollend", updateScrollValue);
   } else {
     carouselRef.onscroll = null;
   }
@@ -67,16 +72,23 @@ const handleClick = (direction: "previous" | "next") => {
   carouselEl.scroll({ left: scrollLeft, top: 0 });
 };
 
-const updateScrollValue = (e: Event) => {
-  const targetScrollPosition = e.target as HTMLDivElement;
+const updateScrollValue = () => {
+  const carouselTarget = carousel.value! as HTMLDivElement;
+  
+  CarouselLength.value = carouselTarget.children.length;
+  cardSize.value = carouselTarget.children[0]?.getBoundingClientRect().width ?? 0;
 
-  clientWidth.value = targetScrollPosition.clientWidth;
-  scrollLeft.value = targetScrollPosition.scrollLeft;
-  scrollWidth.value = targetScrollPosition.scrollWidth;
+  clientWidth.value = carouselTarget.clientWidth;
+  scrollLeft.value = carouselTarget.scrollLeft;
+  scrollWidth.value = carouselTarget.scrollWidth;
   calculatedIndex.value = Math.trunc(
     (scrollLeft.value - gap.value) / cardSize.value
   );
 };
+
+useResizeObserver(carousel, () => {
+  updateScrollValue();
+})
 
 const isMaxScrollValue = computed(() => {
   const scrollDimension = scrollWidth.value - clientWidth.value;
@@ -97,11 +109,11 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
 
 <template>
   <div class="carousel">
-    <div class="carousel__scroller" ref="carousel">
+    <div :class="`carousel__scroller ${paginators}`" ref="carousel">
       <slot name="slides"></slot>
     </div>
     <div v-if="isLarge" class="carousel__overlay"></div>
-    <div class="carousel__navigation-container">
+    <div :class="`carousel__navigation-container ${paginators}`">
       <button
         :class="`${isMinScrollValue ? 'inactive' : ''}`"
         @click="handleClick('previous')"
@@ -117,7 +129,10 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
         <i class="pi pi-angle-right"></i>
       </button>
     </div>
-    <div class="carousel__pagination-container" v-if="indicator">
+    <div
+      :class="{ 'carousel__pagination-container': true, large: isLarge }"
+      v-if="indicator"
+    >
       <span
         v-for="(_, index) in Array(CarouselLength)"
         :class="`${type ? 'photo' : ''} ${
@@ -134,9 +149,7 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
 .carousel {
   position: relative;
   max-width: 1440px;
-  margin: auto;
   overflow: hidden;
-  width: 100%;
 
   &__overlay {
     position: absolute;
@@ -167,13 +180,17 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
   &__scroller {
     margin: 0 20px;
     display: flex;
-    gap: 24px;
+    gap: 16px;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-snap-stop: always;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
+
+    &.full-screen {
+      margin: auto;
+    }
 
     &::-webkit-scrollbar {
       display: none; /* Safari and Chrome */
@@ -193,8 +210,27 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: calc(100% - 20px);
+    height: 100%;
     pointer-events: none;
+
+    &.full-screen {
+      button {
+        background-color: rgba(var(--neutral-black), 0.2);
+        height: 100%;
+        width: 50px;
+        border-radius: 0;
+        backdrop-filter: blur(2px);
+        transition: background 0.2s ease-in-out;
+
+        &:hover {
+          background-color: rgba(var(--neutral-black), 0.7);
+        }
+      }
+
+      i {
+        color: rgba(var(--neutral));
+      }
+    }
 
     button {
       position: relative;
@@ -251,6 +287,18 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
       &.active {
         opacity: 0.7;
         transform: scale(1.2);
+      }
+    }
+  }
+
+  &__pagination-container.large {
+    @include start-from(generic-desktop) {
+      display: flex;
+      gap: 12px;
+
+      span {
+        height: 12px;
+        width: 12px;
       }
     }
   }

@@ -1,11 +1,13 @@
 <template>
   <main class="nf-home">
     <top-section
+    class="nf-home__hero"
           v-if="today"
           title="Trading Today"
           :movie-list="today.results"
           size="large"
           :indicator="true"
+          paginators="full-screen"
         />
     <section class="nf-home__movies-section">
       <h2 class="nf-home__section-title">Movies</h2>
@@ -139,16 +141,29 @@ const { data: topRatedTV } = await useAsyncData<MovieDBResponse | undefined>(
 </script>
 
 <style lang="scss" scoped>
+@import "assets/styles/utils";
 .nf-home {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  &__hero {
+    width: 100%;
+
+    :deep(.carousel) {
+      width: 100%;
+      max-width: none;
+    }
+  }
 
   &__movies-section,
   &__tv-section {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 20px;
+
+    @include start-from(generic-desktop) {
+      padding: 34px;
+    }
   }
 
   &__movies-section-content,

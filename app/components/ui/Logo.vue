@@ -36,3 +36,9 @@
     </g>
   </svg>
 </template>
+
+<style lang="scss" scoped>
+.logo-icon {
+  cursor: pointer;
+}
+</style>
