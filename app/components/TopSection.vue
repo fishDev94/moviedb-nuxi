@@ -6,7 +6,7 @@
         <ui-card
           v-for="movie of useArrayLimit(8, movieList)"
           :key="movie.id"
-          :img-src="useImageUrl(pathImg(movie), isLarge)"
+          :img-src="pathImg(movie)"
           :data="movie"
           :size
         />
