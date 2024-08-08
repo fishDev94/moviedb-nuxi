@@ -1,18 +1,5 @@
-<script lang="ts">
-/**
- * @function CarouselComponent
- * @param {String} type it define if this carousel is a photo gallery or by default a simple card carousel
- * @param {Boolean} indicator it will active the indicator on your carousel - best with slider mode
- * @param {String} gapMobile accept string with px values to set gap for mobile version 0px by default
- * @param {String} size
- */
-export default {
-  name: "Carousel",
-};
-</script>
-
 <script setup lang="ts">
-import { useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from "@vueuse/core";
 
 const carousel = ref(null);
 const clientWidth = ref(1);
@@ -45,14 +32,14 @@ onMounted(() => {
   if ("onscrollend" in window) {
     carouselRef.addEventListener("scrollend", updateScrollValue);
   } else {
-    carouselRef.onscroll = (event) => {
+    carouselRef.onscroll = () => {
       clearTimeout((window as any).scrollEndTimer);
       (window as any).scrollEndTimer = setTimeout(updateScrollValue, 100);
     };
   }
 });
 
-onBeforeRouteLeave((_1: any, _2: any, next: any) => {
+onBeforeRouteLeave((_1, _2, next) => {
   const carouselRef = carousel.value! as HTMLDivElement;
   if ("onscrollend" in window) {
     carouselRef.removeEventListener("scrollend", updateScrollValue);
@@ -64,11 +51,11 @@ onBeforeRouteLeave((_1: any, _2: any, next: any) => {
 
 const handleClick = (direction: "previous" | "next") => {
   if (carousel.value) {
-    const carouselEl: HTMLDivElement = carousel.value
+    const carouselEl: HTMLDivElement = carousel.value;
     const isPrev = direction === "previous";
     const scrollLeft =
       carouselEl.scrollLeft + (isPrev ? -cardSize.value : cardSize.value);
-  
+
     carouselEl.scroll({ left: scrollLeft, top: 0 });
   }
 };
@@ -77,7 +64,8 @@ const updateScrollValue = () => {
   const carouselTarget = carousel.value! as HTMLDivElement;
 
   CarouselLength.value = carouselTarget.children.length;
-  cardSize.value = carouselTarget.children[0]?.getBoundingClientRect().width ?? 0;
+  cardSize.value =
+    carouselTarget.children[0]?.getBoundingClientRect().width ?? 0;
 
   clientWidth.value = carouselTarget.clientWidth;
   scrollLeft.value = carouselTarget.scrollLeft;
@@ -89,7 +77,7 @@ const updateScrollValue = () => {
 
 useResizeObserver(carousel, () => {
   updateScrollValue();
-})
+});
 
 const isMaxScrollValue = computed(() => {
   const scrollDimension = scrollWidth.value - clientWidth.value;
@@ -108,6 +96,20 @@ const isMaxScrollValue = computed(() => {
 const isMinScrollValue = computed(() => scrollLeft.value === 0);
 </script>
 
+<script lang="ts">
+/**
+ * @module CarouselComponent
+ * @param {String} type it define if this carousel is a photo gallery or by default a simple card carousel
+ * @param {Boolean} indicator it will active the indicator on your carousel - best with slider mode
+ * @param {String} gapMobile accept string with px values to set gap for mobile version 0px by default
+ * @param {String} size accept string 'large' or 'medium' for example, and it pass to card
+ * @param {String} paginators accept full screen
+ */
+export default {
+  name: "Carousel",
+};
+</script>
+
 <template>
   <div class="carousel">
     <div :class="`carousel__scroller ${paginators}`" ref="carousel">
@@ -123,6 +125,7 @@ const isMinScrollValue = computed(() => scrollLeft.value === 0);
         <i class="pi pi-angle-left"></i>
       </button>
       <button
+        id="skip"
         :class="`${isMaxScrollValue ? 'inactive' : ''}`"
         @click="handleClick('next')"
         aria-label="arrow-right"

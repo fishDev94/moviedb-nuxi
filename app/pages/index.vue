@@ -55,6 +55,38 @@
 <script setup lang="ts">
 import type { MovieDBResponse } from "~/app/types/movieDB.type";
 
+useHead({
+  title: 'NuxFlex',
+  meta: [
+    { name: 'description', content: 'NuxFlex | Discovery the best movie of the moment' }
+  ],
+  link: [
+    {
+      rel: 'preload',
+      type: 'image/png',
+      href: 'https://critics.io/img/movies/poster-placeholder.png',
+      as: 'image',
+    },
+    {
+      rel: 'preload',
+      href: '/logo.svg',
+      as: 'image'
+    },
+    {
+      rel: "preconnect",
+      href: "https://fonts.googleapis.com"
+    },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+    },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@200;300;400;800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap",
+      rel: "stylesheet"
+    }
+  ]
+})
+
 const { data: today } = await useAsyncData<MovieDBResponse | undefined>(
   "treding-today",
   () =>

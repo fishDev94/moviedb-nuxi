@@ -6,7 +6,7 @@
         <ui-card
           v-for="movie of useArrayLimit(8, movieList)"
           :key="movie.id"
-          :img-src="useImageUrl(movie.poster_path ?? movie.backdrop_path)"
+          :img-src="useImageUrl(pathImg(movie), isLarge)"
           :data="movie"
           :size
         />
@@ -16,9 +16,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { MovieDBResponse } from "~/app/types/movieDB.type";
+import type { Movie, MovieDBResponse, TV } from "~/app/types/movieDB.type";
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   title: string;
   movieList: MovieDBResponse["results"];
   size?: string;
@@ -29,6 +29,15 @@ withDefaults(defineProps<{
   indicator: false,
   paginators: "default"
 });
+
+const isLarge = computed(() => props.size === 'large')
+const pathImg = (movie: Movie | TV) => {
+  if (isLarge.value) {
+    return movie.backdrop_path
+  }
+
+  return movie.poster_path ?? movie.backdrop_path
+}
 </script>
 
 <style lang="scss" scoped>

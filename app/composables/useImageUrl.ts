@@ -1,5 +1,6 @@
-const useImageUrl = (path: string | undefined): string => {
-    const base_url = "https://image.tmdb.org/t/p/w500"
+const useImageUrl = (path: string | undefined, isLarge: boolean = false): string => {
+    const size = isLarge ? "w1280" : "w300"
+    const base_url = `https://image.tmdb.org/t/p/${size}`
     
     if (path) {
         return base_url + path;

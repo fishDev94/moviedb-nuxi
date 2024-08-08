@@ -7,11 +7,12 @@
     viewBox="0 0 84 24"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>NuxFlex | Logo</title>
+    <desc>Logo of the website</desc>
     <g transform="translate(-34.872 -101.81)">
       <g
         transform="scale(.93697 1.0673)"
         style="stroke-width: 17.55"
-        aria-label="NUXFLEX"
       >
         <path
           d="m50.005 95.391v22.025h-5.0199l-2.9793-10.013v10.013h-4.7886v-22.025h4.7886l3.2105 9.9173v-9.9173z"

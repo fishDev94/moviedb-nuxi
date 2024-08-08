@@ -1,6 +1,18 @@
 <template>
   <nuxt-link :class="{ card: true, large: isLarge }" :to="toPath">
-    <img class="card__img" :src="imgSrc" alt="" loading="lazy" />
+    <nuxt-img
+  class="card__img"
+  format="webp"
+  :src="imgSrc"
+  alt="movie-poster"
+  :loading="isLarge ? 'eager' : 'lazy'"
+  placeholder
+  sizes="(max-width: 600px) 300px, (max-width: 1200px) 500px, 1280px"
+  :srcset="`${useImgSrcset(imgSrc.split('/').at(-1), 'w342')} 300w,
+    ${useImgSrcset(imgSrc.split('/').at(-1), 'w500')} 500w,
+    ${useImgSrcset(imgSrc.split('/').at(-1), 'w1280')} 1280w,`
+  "
+/>
     <div :class="{ card__info: true, large: isLarge }"></div>
   </nuxt-link>
 </template>
