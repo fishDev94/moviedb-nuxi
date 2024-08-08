@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@nuxt-modules/compression':
-        specifier: ^0.1.0
-        version: 0.1.0
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
@@ -691,9 +688,6 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
-
-  '@nuxt-modules/compression@0.1.0':
-    resolution: {integrity: sha512-olvR/SlMs+grC1yEES4bE1mIRIwHhHHKvXqn2u6lXC309uyIurb4eiDouMztZ7yRwEXh4oUKkkD3qq2zCN7RVQ==}
 
   '@nuxt/devalue@2.0.2':
     resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
@@ -3876,8 +3870,6 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
-
-  '@nuxt-modules/compression@0.1.0': {}
 
   '@nuxt/devalue@2.0.2': {}
 
