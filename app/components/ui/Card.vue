@@ -1,5 +1,6 @@
 <template>
   <nuxt-link :class="{ card: true, large: isLarge }" :to="toPath">
+    <h3 v-if="isLarge" class="card__title">{{ title }}</h3>
     <nuxt-img
       class="card__img"
       format="webp"
@@ -22,6 +23,7 @@ const props = withDefaults(
     imgSrc: string;
     data: Movie | TV;
     size?: string;
+    title?: string;
   }>(),
   {
     size: "normal",
@@ -39,6 +41,10 @@ const isMovie = computed(() => {
 const toPath = computed(() => {
   return isMovie.value ? `movie/${props.data.id}` : `tv/${props.data.id}`;
 });
+
+const title = computed(() => {
+  return isMovie.value ? (props.data as Movie).title : (props.data as TV).name;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -49,6 +55,29 @@ const toPath = computed(() => {
   width: 180px;
   height: 100px;
   overflow: hidden;
+
+  &__title {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: rgb(var(--neutral));
+    text-shadow: 1px 1px 4px rgba(var(--neutral-black));
+    background-color: rgba(var(--neutral-black), 0.2);
+    
+    @include start-from(generic-desktop) {
+      font-size: 2.2rem;
+      margin-left: 80px;
+      justify-content: flex-start;
+      width: max-content;
+      background-color: transparent;
+    }
+  }
 
   &__img {
     width: 100%;

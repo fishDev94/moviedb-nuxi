@@ -64,7 +64,7 @@ const pathImg = (movie: Movie | TV) => {
       @include start-from(generic-desktop) {
         font-size: 2.4rem;
         top: 0;
-        height: 100%;
+        height: 78%;
         display: flex;
         align-items: center;
         margin-left: 80px;
