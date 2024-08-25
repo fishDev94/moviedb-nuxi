@@ -1,14 +1,14 @@
 <template>
   <main class="nf-home">
     <top-section
-    class="nf-home__hero"
-          v-if="today"
-          title="Trading Today"
-          :movie-list="today.results"
-          size="large"
-          :indicator="true"
-          paginators="full-screen"
-        />
+      class="nf-home__hero"
+      v-if="today"
+      title="Trading Today"
+      :movie-list="today.results"
+      size="large"
+      :indicator="true"
+      paginators="full-screen"
+    />
     <section class="nf-home__movies-section">
       <h2 class="nf-home__section-title">Movies</h2>
       <div class="nf-home__movies-section-content">
@@ -55,26 +55,31 @@
 <script setup lang="ts">
 import type { MovieDBResponse } from "~/app/types/movieDB.type";
 
+const nuxtApp = useNuxtApp();
+
 useHead({
-  title: 'NuxFlex',
+  title: "NuxFlex",
   meta: [
-    { name: 'description', content: 'NuxFlex | Discovery the best movie of the moment' }
+    {
+      name: "description",
+      content: "NuxFlex | Discovery the best movie of the moment",
+    },
   ],
   link: [
     {
-      rel: 'preload',
-      type: 'image/png',
-      href: 'https://critics.io/img/movies/poster-placeholder.png',
-      as: 'image',
+      rel: "preload",
+      type: "image/png",
+      href: "https://critics.io/img/movies/poster-placeholder.png",
+      as: "image",
     },
     {
-      rel: 'preload',
-      href: '/logo.svg',
-      as: 'image'
+      rel: "preload",
+      href: "/logo.svg",
+      as: "image",
     },
     {
       rel: "preconnect",
-      href: "https://fonts.googleapis.com"
+      href: "https://fonts.googleapis.com",
     },
     {
       rel: "preconnect",
@@ -82,10 +87,10 @@ useHead({
     },
     {
       href: "https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@200;300;400;800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap",
-      rel: "stylesheet"
-    }
-  ]
-})
+      rel: "stylesheet",
+    },
+  ],
+});
 
 const { data: today } = await useAsyncData<MovieDBResponse | undefined>(
   "treding-today",
@@ -96,7 +101,14 @@ const { data: today } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: popular } = await useAsyncData<MovieDBResponse | undefined>(
@@ -108,7 +120,14 @@ const { data: popular } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: topRated } = await useAsyncData<MovieDBResponse | undefined>(
@@ -120,7 +139,14 @@ const { data: topRated } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: upcoming } = await useAsyncData<MovieDBResponse | undefined>(
@@ -132,7 +158,14 @@ const { data: upcoming } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: airingTodayTV } = await useAsyncData<MovieDBResponse | undefined>(
@@ -144,7 +177,14 @@ const { data: airingTodayTV } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: popularTV } = await useAsyncData<MovieDBResponse | undefined>(
@@ -156,7 +196,14 @@ const { data: popularTV } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 
 const { data: topRatedTV } = await useAsyncData<MovieDBResponse | undefined>(
@@ -168,7 +215,14 @@ const { data: topRatedTV } = await useAsyncData<MovieDBResponse | undefined>(
         language: "en-GB",
         page: 1,
       },
-    })
+    }),
+  {
+    getCachedData(key) {
+      return nuxtApp.isHydrating
+        ? nuxtApp.payload.data[key]
+        : nuxtApp.static.data[key];
+    },
+  }
 );
 </script>
 
