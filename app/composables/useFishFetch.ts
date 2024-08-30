@@ -1,6 +1,6 @@
 let cache = new Map();
 
-export const useFishFetch = async <T>(
+export const useFishFetch = <T>(
   url: string,
   options?: Record<string, any>
 ): Promise<T | undefined> => {
@@ -19,7 +19,7 @@ export const useFishFetch = async <T>(
       return cache.get(url);
     }
 
-    const data = await $fetch<T>(url, {
+    const data = $fetch<T>(url, {
       ...options,
       baseURL: options?.baseURL || "https://api.themoviedb.org/3/",
       headers: {
@@ -32,11 +32,12 @@ export const useFishFetch = async <T>(
     if (data) {
       // Memorizza i dati nella cache
       cache.set(url, data);
-      return data as T;
+      return data;
     }
 
     throw new Error("Fetch failed");
   } catch (error) {
     console.error(error);
+    return Promise.reject(error);
   }
 };

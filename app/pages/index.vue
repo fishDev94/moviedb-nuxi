@@ -53,9 +53,13 @@
 </template>
 
 <script setup lang="ts">
-import type { MovieDBResponse } from "~/app/types/movieDB.type";
+definePageMeta({
+  middleware: ["home-fetch"],
+});
 
 const nuxtApp = useNuxtApp();
+
+const { today, popular, topRated, upcoming, airingTodayTV, popularTV, topRatedTV } = nuxtApp.payload.data;
 
 useHead({
   title: "NuxFlex",
@@ -91,139 +95,6 @@ useHead({
     },
   ],
 });
-
-const { data: today } = await useAsyncData<MovieDBResponse | undefined>(
-  "treding-today",
-  () =>
-    useFishFetch<MovieDBResponse>("trending/all/day", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: popular } = await useAsyncData<MovieDBResponse | undefined>(
-  "popular",
-  () =>
-    useFishFetch<MovieDBResponse>("movie/popular", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: topRated } = await useAsyncData<MovieDBResponse | undefined>(
-  "top-rated",
-  () =>
-    useFishFetch<MovieDBResponse>("movie/top_rated", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: upcoming } = await useAsyncData<MovieDBResponse | undefined>(
-  "upcoming",
-  () =>
-    useFishFetch<MovieDBResponse>("movie/upcoming", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: airingTodayTV } = await useAsyncData<MovieDBResponse | undefined>(
-  "airing-today",
-  () =>
-    useFishFetch<MovieDBResponse>("tv/airing_today", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: popularTV } = await useAsyncData<MovieDBResponse | undefined>(
-  "popular",
-  () =>
-    useFishFetch<MovieDBResponse>("tv/popular", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
-
-const { data: topRatedTV } = await useAsyncData<MovieDBResponse | undefined>(
-  "top-rated-tv",
-  () =>
-    useFishFetch<MovieDBResponse>("tv/top_rated", {
-      params: {
-        include_video: true,
-        language: "en-GB",
-        page: 1,
-      },
-    }),
-  {
-    getCachedData(key) {
-      return nuxtApp.isHydrating
-        ? nuxtApp.payload.data[key]
-        : nuxtApp.static.data[key];
-    },
-  }
-);
 </script>
 
 <style lang="scss" scoped>
