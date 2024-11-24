@@ -48,7 +48,7 @@ const title = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 .card {
   position: relative;
   flex: 0 0 auto;
@@ -69,7 +69,7 @@ const title = computed(() => {
     color: rgb(var(--neutral));
     text-shadow: 1px 1px 4px rgba(var(--neutral-black));
     background-color: rgba(var(--neutral-black), 0.2);
-    
+
     @include start-from(generic-desktop) {
       font-size: 2.2rem;
       margin-left: 80px;

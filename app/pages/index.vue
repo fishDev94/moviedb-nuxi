@@ -59,7 +59,15 @@ definePageMeta({
 
 const nuxtApp = useNuxtApp();
 
-const { today, popular, topRated, upcoming, airingTodayTV, popularTV, topRatedTV } = nuxtApp.payload.data;
+const {
+  today,
+  popular,
+  topRated,
+  upcoming,
+  airingTodayTV,
+  popularTV,
+  topRatedTV,
+} = nuxtApp.payload.data;
 
 useHead({
   title: "NuxFlex",
@@ -98,7 +106,7 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 .nf-home {
   &__hero {
     width: 100%;

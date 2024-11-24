@@ -3,7 +3,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 .app-input {
   width: 8em;
   border: 1px solid rgb(var(--neutral));

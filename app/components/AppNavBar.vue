@@ -1,19 +1,36 @@
 <template>
-  <nav :class="{'moviedb-nav': true, active: isHamMenuActive}">
+  <nav :class="{ 'moviedb-nav': true, active: isHamMenuActive }">
     <div class="moviedb-nav__first-content">
-      <ui-ham-men class="moviedb-nav__ham-menu" @click-ham-menu="toggleMenuVisibility" :is-menu-active="isHamMenuActive"/>
-      <ui-logo class="moviedb-nav__logo" @click="pushToHome"/>
+      <ui-ham-men
+        class="moviedb-nav__ham-menu"
+        @click-ham-menu="toggleMenuVisibility"
+        :is-menu-active="isHamMenuActive"
+      />
+      <ui-logo class="moviedb-nav__logo" @click="pushToHome" />
     </div>
     <div class="moviedb-nav__second-content">
       <ui-app-input />
     </div>
-    <div :class="{'moviedb-nav__slide-background': true, active: isHamMenuActive}" @click="setHamMenuInactive"></div>
-    <div :class="{'moviedb-nav__genres-menu': true, active: isHamMenuActive}">
+    <div
+      :class="{
+        'moviedb-nav__slide-background': true,
+        active: isHamMenuActive,
+      }"
+      @click="setHamMenuInactive"
+    ></div>
+    <div :class="{ 'moviedb-nav__genres-menu': true, active: isHamMenuActive }">
       <ui-user-card />
       <hr />
       <ul>
         <li v-for="(element, idx) of menuList" :key="idx">
-          <nuxt-link :to="element.href" class="link" active-class="active" @click="setHamMenuInactive"><div class="nf-element__border"></div>{{ element.text }}</nuxt-link>
+          <nuxt-link
+            :to="element.href"
+            class="link"
+            active-class="active"
+            @click="setHamMenuInactive"
+            ><div class="nf-element__border"></div>
+            {{ element.text }}</nuxt-link
+          >
         </li>
       </ul>
     </div>
@@ -21,45 +38,47 @@
 </template>
 
 <script lang="ts" setup>
-import type { Genre } from '~/app/types/movieDB.type';
+import type { Genre } from "~/app/types/movieDB.type";
 
 const isHamMenuActive = ref<boolean>(false);
-const { data: genres } = useNuxtData<{ genres: Genre[] }>('genres')
+const { data: genres } = useNuxtData<{ genres: Genre[] }>("genres");
 
 const router = useRouter();
 
-  const menuList = ref<{ text: string, href: string }[]>([
+const menuList = ref<{ text: string; href: string }[]>([
   {
-    text: 'Home',
-    href: '/'
+    text: "Home",
+    href: "/",
   },
   {
-    text: 'My Favourites',
-    href: '/favourites'
+    text: "My Favourites",
+    href: "/favourites",
   },
-  ...(genres.value?.genres ? genres.value.genres.map(genre => {
-    return {
-      text: genre.name,
-      href: `/browse/genre/${genre.id}`
-    }
-  }) : [])
-])
+  ...(genres.value?.genres
+    ? genres.value.genres.map((genre) => {
+        return {
+          text: genre.name,
+          href: `/browse/genre/${genre.id}`,
+        };
+      })
+    : []),
+]);
 
 const pushToHome = () => {
-    router.push("/");
-}
+  router.push("/");
+};
 
 const toggleMenuVisibility = (e: boolean) => {
   isHamMenuActive.value = e;
-}
+};
 
 const setHamMenuInactive = () => {
   isHamMenuActive.value = false;
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 .moviedb-nav {
   position: fixed;
   z-index: 2;
@@ -136,7 +155,7 @@ const setHamMenuInactive = () => {
     background-color: rgba(var(--neutral-black));
     width: 250px;
     transform: translateX(-250px);
-    transition: transform .15s cubic-bezier(.5,0,.1,1);
+    transition: transform 0.15s cubic-bezier(0.5, 0, 0.1, 1);
     max-height: calc(100dvh - var(--nav-bar-height-mobile));
     overflow-y: scroll;
     -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -157,7 +176,6 @@ const setHamMenuInactive = () => {
     }
 
     li {
-      
       a {
         display: flex;
         align-items: center;
@@ -166,10 +184,10 @@ const setHamMenuInactive = () => {
           height: 18px;
           width: 16px;
         }
-        
+
         &.active {
           .nf-element__border {
-          border-left: 4px solid rgb(var(--primary));
+            border-left: 4px solid rgb(var(--primary));
           }
         }
       }

@@ -148,7 +148,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 
 .carousel {
   position: relative;
@@ -310,7 +310,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 
 .card.card {
   scroll-snap-align: start;

@@ -13,7 +13,7 @@ const emits = defineEmits<{
 
 const props = defineProps<{
   isMenuActive: boolean;
-}>()
+}>();
 
 function setActiveMenu(): void {
   emits("clickHamMenu", !props.isMenuActive);
@@ -21,7 +21,7 @@ function setActiveMenu(): void {
 </script>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 
 div {
   display: flex;

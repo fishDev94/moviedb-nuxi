@@ -4,17 +4,24 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
-      charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1',
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1",
       htmlAttrs: {
-        lang: 'en'
-      }
-    }
+        lang: "en",
+      },
+    },
   },
   vite: {
     build: {
-      minify: 'terser' // 'terser' per un minify più ottimizzato ma più lento
-    }
+      minify: "terser", // 'terser' per un minify più ottimizzato ma più lento
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern",
+        },
+      },
+    },
   },
   future: {
     compatibilityVersion: 4,
@@ -35,5 +42,5 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["@nuxt/image"]
+  modules: ["@nuxt/image"],
 });

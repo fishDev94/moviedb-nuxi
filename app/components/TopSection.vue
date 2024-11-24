@@ -18,30 +18,33 @@
 <script lang="ts" setup>
 import type { Movie, MovieDBResponse, TV } from "~/app/types/movieDB.type";
 
-const props = withDefaults(defineProps<{
-  title: string;
-  movieList: MovieDBResponse["results"];
-  size?: string;
-  indicator?: boolean;
-  paginators?: string;
-}>(), {
-  size: 'normal',
-  indicator: false,
-  paginators: "default"
-});
+const props = withDefaults(
+  defineProps<{
+    title: string;
+    movieList: MovieDBResponse["results"];
+    size?: string;
+    indicator?: boolean;
+    paginators?: string;
+  }>(),
+  {
+    size: "normal",
+    indicator: false,
+    paginators: "default",
+  }
+);
 
-const isLarge = computed(() => props.size === 'large')
+const isLarge = computed(() => props.size === "large");
 const pathImg = (movie: Movie | TV) => {
   if (isLarge.value) {
-    return movie.backdrop_path
+    return movie.backdrop_path;
   }
 
-  return movie.poster_path ?? movie.backdrop_path
-}
+  return movie.poster_path ?? movie.backdrop_path;
+};
 </script>
 
 <style lang="scss" scoped>
-@import "assets/styles/utils";
+@use "assets/styles/utils" as *;
 .nf-top-section {
   position: relative;
   display: flex;
